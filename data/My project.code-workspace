@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../My project"
+		},
+		{
+			"name": "ESP32-Controller",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "ESP32-Controller"
+	}
+}
