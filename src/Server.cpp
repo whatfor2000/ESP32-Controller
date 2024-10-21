@@ -119,9 +119,9 @@ void reset(AsyncWebServerRequest *request)
   digitalWrite(ledStartPin, LOW);
   digitalWrite(ledStopPin, HIGH);
   // Home();
-  myservo1.write(defaultServo1);
-  myservo2.write(defaultServo2);;
-  myservo3.write(defaultServo3);;
+  M1Servo.write(defaultServo1);
+  M2Servo.write(defaultServo2);;
+  M3Servo.write(defaultServo3);;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
@@ -147,7 +147,7 @@ void randommode(AsyncWebServerRequest *request)
 void selected(AsyncWebServerRequest *request)
 {
   digitalWrite(ledIRPin, LOW);
-  myservo2.write(0);
+  M2Servo.write(0);
   isSelected = true;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
@@ -190,9 +190,9 @@ void Home(AsyncWebServerRequest *request)
 {
   isStarted = false;
   isPaused = false;
-  myservo1.write(defaultServo1);
-  myservo2.write(defaultServo2);;
-  myservo3.write(defaultServo3);;
+  M1Servo.write(defaultServo1);
+  M2Servo.write(defaultServo2);;
+  M3Servo.write(defaultServo3);;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
