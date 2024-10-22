@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Belly Rice Grain Classification Machine</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 <body>
@@ -49,7 +49,8 @@
       </tr>
     </table>
     <div class="status-text">
-      <div class="status-text-content">Status: <span id="statusMessage"></span></div><div class="status-text-content">Current Rice Grade: <span id="currentvalue"></span></div>
+      <div class="status-text-content">Status: <span id="statusMessage"></span></div>
+      <div class="status-text-content">Current Rice Grade: <span id="currentvalue"></span></div>
     </div>
     <p>Time: <span id="elapsedTime"></span></p>
     <p>Total Count: <span id="totalCount"></span></p>
@@ -59,7 +60,7 @@
   <div class="control-panel">
     <div class="tabs">
       <button class="tab-link active" onclick="openTab(event)">Manual Mode</button>
-      <button class="tab-link" onclick="openTab(event)">Random Mode</button>  
+      <button class="tab-link" onclick="openTab(event)">Random Mode</button>
     </div>
     <div>
       <button id="startButton" onclick="start()">Start</button>
@@ -68,14 +69,42 @@
     </div>
 
     <div class="servo-controls">
-      <h2>Servo Controls</h2>
-      <label for="servo1">Servo 1</label>
-      <input type="number" name="servo1" id="servo1">
-      <label for="servo2">Servo 2</label>
-      <input type="number" name="servo2" id="servo2">
-      <label for="servo3">Servo 3</label>
-      <input type="number" name="servo3" id="servo3">
-      <button type="submit">Set</button>
+      <h2>Calibation</h2>
+      <form action="/calibation" method="get">
+        <h3>M1</h3>
+        <label for="m1open">M1 Open</label>
+        <input type="number" name="m1open" id="m1open">
+        <label for="m1close">M1 Close</label>
+        <input type="number" name="m1close" id="m1close">
+        <h3>M2</h3>
+        <label for="m2open">M2 Open</label>
+        <input type="number" name="m2open" id="m2open">
+        <label for="m2close">M2 Close</label>
+        <input type="number" name="m2close" id="m2close">
+        <h3>M3</h3>
+        <label for="m3pos0">Position 0</label>
+        <input type="number" name="m3pos0" id="m3pos0">
+
+        <label for="m3pos1">Position 1</label>
+        <input type="number" name="m3pos1" id="m3pos1">
+
+        <label for="m3pos2">Position 2</label>
+        <input type="number" name="m3pos2" id="m3pos2">
+
+        <label for="m3pos3">Position 3</label>
+        <input type="number" name="m3pos3" id="m3pos3">
+
+        <label for="m3pos4">Position 4</label>
+        <input type="number" name="m3pos4" id="m3pos4">
+
+        <label for="m3pos5">Position 5</label>
+        <input type="number" name="m3pos5" id="m3pos5">
+
+        <label for="m3pos6">Position 6</label>
+        <input type="number" name="m3pos6" id="m3pos6">
+
+        <button type="submit">Set</button>
+      </form>
     </div>
   </div>
 

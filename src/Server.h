@@ -7,10 +7,12 @@
 
 extern AsyncWebServer server;
 
-void handleRoot(AsyncWebServerRequest *request);
+void indexfile(AsyncWebServerRequest *request);
+void style(AsyncWebServerRequest *request);
+void script(AsyncWebServerRequest *request);
 void generateJSON(AsyncWebServerRequest *request);
-void generateServoSettingsJSON(AsyncWebServerRequest *request);
-void setServo(AsyncWebServerRequest *request);
+void getCalibationValueJson(AsyncWebServerRequest *request);
+void calibation(AsyncWebServerRequest *request);
 void Home(AsyncWebServerRequest *request);
 void Pause(AsyncWebServerRequest *request);
 void reset(AsyncWebServerRequest *request);

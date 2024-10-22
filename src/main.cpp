@@ -49,9 +49,10 @@ void setup()
     return;
   }
   // Define web server routes
-  server.on("/", handleRoot);
+  server.on("/", indexfile);
+  server.on("/style.css", HTTP_GET, style);
+  server.on("/script.js", script);
   server.on("/data", HTTP_GET, generateJSON);
-  server.on("/getservo", HTTP_GET, generateServoSettingsJSON);
   server.on("/pause", HTTP_GET, Pause);
   server.on("/reset", HTTP_GET, reset);
   server.on("/home", HTTP_GET, Home);
@@ -59,7 +60,8 @@ void setup()
   server.on("/start/manual", HTTP_GET, manualmode);
   server.on("/start/random", HTTP_GET, randommode);
   server.on("/selected", HTTP_GET, selected);
-  server.on("/setservo", HTTP_GET, setServo);
+  server.on("/getcalibation", HTTP_GET, getCalibationValueJson);
+  server.on("/calibation", HTTP_GET, calibation);
 
   // Start the server
   server.begin();

@@ -10,7 +10,7 @@ void M2Close(){
 void M2Read(int &open, int &close){
 
   int tempValue;
-  EEPROM.get(8, open);
+  EEPROM.get(8, tempValue);
   if (tempValue >= 0 && tempValue <= 180)
   { // Assuming servo range 0-180
     open = tempValue;
@@ -19,7 +19,7 @@ void M2Read(int &open, int &close){
   {
     EEPROM.put(8, 0); // Store default value
   }
-  EEPROM.get(12, close);
+  EEPROM.get(12, tempValue);
   if (tempValue >= 0 && tempValue <= 180)
   { // Assuming servo range 0-180
     close = tempValue;

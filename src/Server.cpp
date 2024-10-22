@@ -1,12 +1,39 @@
 #include "Server.h"
 #include "Config.h"
+#include "M1.h"
+#include "M2.h"
+#include "M3.h"
 #include <EEPROM.h>
 #include "HWFunction.h"
 
 AsyncWebServer server(80);
-void handleRoot(AsyncWebServerRequest *request)
+void indexfile(AsyncWebServerRequest *request)
 {
   File file = SPIFFS.open("/index.html", "r");
+  if (!file)
+  {
+    request->send(500, "text/plain", "File not found");
+    return;
+  }
+  request->send(200, "text/html", file.readString()); // Serve the content of the file
+  file.close();                                       // Close the file after serving
+}
+
+void style(AsyncWebServerRequest *request)
+{
+  File file = SPIFFS.open("/style.css", "r");
+  if (!file)
+  {
+    request->send(500, "text/plain", "File not found");
+    return;
+  }
+  request->send(200, "text/css", file.readString()); // Serve the content of the file
+  file.close();                                      // Close the file after serving
+}
+
+void script(AsyncWebServerRequest *request)
+{
+  File file = SPIFFS.open("/script.js", "r");
   if (!file)
   {
     request->send(500, "text/plain", "File not found");
@@ -85,16 +112,23 @@ void generateJSON(AsyncWebServerRequest *request)
 }
 
 // New function for generating servo settings JSON
-void generateServoSettingsJSON(AsyncWebServerRequest *request)
+void getCalibationValueJson(AsyncWebServerRequest *request)
 {
-  int defaultServo1, defaultServo2, defaultServo3;
-  // Read the values from EEPROM
-  readServoValues(defaultServo1, defaultServo2, defaultServo3);
-
+  M1Read(m1open,m1close);
+  M2Read(m2open,m2close);
+  M3Read(m3pos0,m3pos1,m3pos2,m3pos3,m3pos4,m3pos5,m3pos6);
   String json = "{";
-  json += "\"defaultServo1\":" + String(defaultServo1) + ",";
-  json += "\"defaultServo2\":" + String(defaultServo2) + ",";
-  json += "\"defaultServo3\":" + String(defaultServo3);
+  json += "\"m1open\":" + String(m1open) + ",";
+  json += "\"m1close\":" + String(m1close) + ",";
+  json += "\"m2open\":" + String(m2open) + ",";
+  json += "\"m2close\":" + String(m2close) + ",";
+  json += "\"m3pos0\":" + String(m3pos0) + ",";
+  json += "\"m3pos1\":" + String(m3pos1) + ",";
+  json += "\"m3pos2\":" + String(m3pos2) + ",";
+  json += "\"m3pos3\":" + String(m3pos3) + ",";
+  json += "\"m3pos4\":" + String(m3pos4) + ",";
+  json += "\"m3pos5\":" + String(m3pos5) + ",";
+  json += "\"m3pos6\":" + String(m3pos6);
   json += "}";
   request->send(200, "application/json", json);
 }
@@ -120,8 +154,10 @@ void reset(AsyncWebServerRequest *request)
   digitalWrite(ledStopPin, HIGH);
   // Home();
   M1Servo.write(defaultServo1);
-  M2Servo.write(defaultServo2);;
-  M3Servo.write(defaultServo3);;
+  M2Servo.write(defaultServo2);
+  ;
+  M3Servo.write(defaultServo3);
+  ;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
@@ -153,46 +189,56 @@ void selected(AsyncWebServerRequest *request)
   request->redirect("/");
 }
 
-void setServo(AsyncWebServerRequest *request)
+void calibation(AsyncWebServerRequest *request)
 {
-  Serial.println("set");
-
-  // Check if all parameters exist
-  if (request->hasParam("servo1") && request->hasParam("servo2") && request->hasParam("servo3"))
+  // Check for the parameters and get their values
+  if (request->hasParam("m1open") && request->hasParam("m1close") &&
+      request->hasParam("m2open") && request->hasParam("m2close") &&
+      request->hasParam("m3pos0") && request->hasParam("m3pos1") &&
+      request->hasParam("m3pos2") && request->hasParam("m3pos3") &&
+      request->hasParam("m3pos4") && request->hasParam("m3pos5") &&
+      request->hasParam("m3pos6"))
   {
-    // Get the values from URL parameters
-    int servo1 = request->getParam("servo1")->value().toInt();
-    int servo2 = request->getParam("servo2")->value().toInt();
-    int servo3 = request->getParam("servo3")->value().toInt();
 
-    // TODO: Add code here to control your servos
-    // For example:
-    // myServo1.write(servo1);
-    // myServo2.write(servo2);
-    // myServo3.write(servo3);
+    // Retrieve and convert parameters
+    String test = request->getParam("m1open")->value();
+    int m1open = request->getParam("m1open")->value().toInt();
+    int m1close = request->getParam("m1close")->value().toInt();
+    int m2open = request->getParam("m2open")->value().toInt();
+    int m2close = request->getParam("m2close")->value().toInt();
+    int m3pos0 = request->getParam("m3pos0")->value().toInt();
+    int m3pos1 = request->getParam("m3pos1")->value().toInt();
+    int m3pos2 = request->getParam("m3pos2")->value().toInt();
+    int m3pos3 = request->getParam("m3pos3")->value().toInt();
+    int m3pos4 = request->getParam("m3pos4")->value().toInt();
+    int m3pos5 = request->getParam("m3pos5")->value().toInt();
+    int m3pos6 = request->getParam("m3pos6")->value().toInt();
 
-    // Store values in EEPROM
-    EEPROM.put(0, servo1); // Store servo1 at address 0
-    EEPROM.put(4, servo2); // Store servo2 at address 4
-    EEPROM.put(8, servo3); // Store servo3 at address 8
-    EEPROM.commit();
-
-    // Redirect back to the main page
-    request->redirect("/");
+    // Call your set functions
+    Serial.println("Setting parameters...");
+    M1Set(m1open, m1close);
+    M2Set(m2open, m2close);
+    M3Set(m3pos0, m3pos1, m3pos2, m3pos3, m3pos4, m3pos5, m3pos6);
   }
   else
   {
-    // If parameters are missing, send an error
-    request->send(400, "text/plain", "Missing servo parameters");
+    // Handle missing parameters
+    request->send(400, "text/plain", "Missing parameters");
+    return;
   }
+
+  // Redirect back to the main page
+  request->redirect("/");
 }
 void Home(AsyncWebServerRequest *request)
 {
   isStarted = false;
   isPaused = false;
   M1Servo.write(defaultServo1);
-  M2Servo.write(defaultServo2);;
-  M3Servo.write(defaultServo3);;
+  M2Servo.write(defaultServo2);
+  ;
+  M3Servo.write(defaultServo3);
+  ;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
