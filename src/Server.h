@@ -13,6 +13,7 @@ void script(AsyncWebServerRequest *request);
 void generateJSON(AsyncWebServerRequest *request);
 void getCalibationValueJson(AsyncWebServerRequest *request);
 void calibation(AsyncWebServerRequest *request);
+void testCalibation(AsyncWebServerRequest *reqest);
 void Home(AsyncWebServerRequest *request);
 void Pause(AsyncWebServerRequest *request);
 void reset(AsyncWebServerRequest *request);

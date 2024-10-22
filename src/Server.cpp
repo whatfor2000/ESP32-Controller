@@ -43,53 +43,6 @@ void script(AsyncWebServerRequest *request)
   file.close();                                       // Close the file after serving
 }
 
-// Function to read servo values from EEPROM
-void readServoValues(int &servo1, int &servo2, int &servo3)
-{
-  // Initialize default values
-  servo1 = 0;
-  servo2 = 0;
-  servo3 = 0;
-
-  // Read from EEPROM and verify values
-  int tempValue;
-
-  // Check servo1
-  EEPROM.get(0, tempValue);
-  if (tempValue >= 0 && tempValue <= 180)
-  { // Assuming servo range 0-180
-    servo1 = tempValue;
-  }
-  else
-  {
-    EEPROM.put(0, 0); // Store default value
-  }
-
-  // Check servo2
-  EEPROM.get(4, tempValue);
-  if (tempValue >= 0 && tempValue <= 180)
-  {
-    servo2 = tempValue;
-  }
-  else
-  {
-    EEPROM.put(4, 0); // Store default value
-  }
-
-  // Check servo3
-  EEPROM.get(8, tempValue);
-  if (tempValue >= 0 && tempValue <= 180)
-  {
-    servo3 = tempValue;
-  }
-  else
-  {
-    EEPROM.put(8, 0); // Store default value
-  }
-
-  // Commit any changes if defaults were written
-  EEPROM.commit();
-}
 // Function for generating main JSON data
 void generateJSON(AsyncWebServerRequest *request)
 {
@@ -114,9 +67,9 @@ void generateJSON(AsyncWebServerRequest *request)
 // New function for generating servo settings JSON
 void getCalibationValueJson(AsyncWebServerRequest *request)
 {
-  M1Read(m1open,m1close);
-  M2Read(m2open,m2close);
-  M3Read(m3pos0,m3pos1,m3pos2,m3pos3,m3pos4,m3pos5,m3pos6);
+  M1Read(m1open, m1close);
+  M2Read(m2open, m2close);
+  M3Read(m3pos0, m3pos1, m3pos2, m3pos3, m3pos4, m3pos5, m3pos6);
   String json = "{";
   json += "\"m1open\":" + String(m1open) + ",";
   json += "\"m1close\":" + String(m1close) + ",";
@@ -201,7 +154,6 @@ void calibation(AsyncWebServerRequest *request)
   {
 
     // Retrieve and convert parameters
-    String test = request->getParam("m1open")->value();
     int m1open = request->getParam("m1open")->value().toInt();
     int m1close = request->getParam("m1close")->value().toInt();
     int m2open = request->getParam("m2open")->value().toInt();
@@ -229,6 +181,11 @@ void calibation(AsyncWebServerRequest *request)
 
   // Redirect back to the main page
   request->redirect("/");
+}
+void testCalibation(AsyncWebServerRequest *reqest)
+{
+  String Servo = request->getParam("servo")->value();
+  String position = request->getParam("position")->value();
 }
 void Home(AsyncWebServerRequest *request)
 {
