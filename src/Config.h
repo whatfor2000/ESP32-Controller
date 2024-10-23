@@ -81,6 +81,15 @@ extern int m3pos4;
 extern int m3pos5; 
 extern int m3pos6;
 
+enum State {
+    OFF,
+    M1RUN,
+    AI,
+    M3RUN,
+    M2,
+};
+State currentState = OFF;
+
 //=================================hardware===================================
 
 #endif // CONFIG_H

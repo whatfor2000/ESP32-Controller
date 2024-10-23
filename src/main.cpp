@@ -7,7 +7,9 @@
 #include "Server.h"
 #include "Config.h"
 #include "HWFunction.h"
+#include "M1.h"
 #include "M2.h"
+#include "M3.h"
 
 void setup()
 {
@@ -63,68 +65,5 @@ void setup()
 
 void loop()
 {
-  // int servoPositions[] = {defaultServo1, defaultServo1 + 10, defaultServo1 + 20, defaultServo1 + 30, defaultServo1 + 40, defaultServo1 + 50, defaultServo1 + 60};
-  // if (isStarted)
-  // {
-  //   digitalWrite(ledStartPin, HIGH);
-  //   digitalWrite(ledStopPin, LOW);
-  // }
-  // else
-  // {
-  //   digitalWrite(ledStartPin, LOW);
-  //   digitalWrite(ledStopPin, HIGH);
-  // }
-  // updateElapsedTime();
 
-  // // การทำงานในโหมด manual เมื่อ isSelected เป็น true
-  // if (isStarted && !isPaused && isManualMode && isSelected)
-  // {
-  //   int value = readDIPSwitch();
-  //   currentvalue = value;
-  //   M2Servo.write(0);
-  //   if (value >= 0 && value < 7)
-  //   {
-  //     myservo1.write(servoPositions[value]); // หมุน servo ตามค่าที่อ่านได้จาก DIP switch
-  //     positionCount[value]++;
-  //     lastServoTime = millis(); // อัพเดทเวลา
-  //     isSelected = false;
-  //   }
-  // }
-
-  // // การทำงานในโหมด random
-  // if (isStarted && !isPaused && !isManualMode)
-  // {
-  //   if (millis() - lastServoTime >= servoInterval)
-  //   {
-  //     int randomValue = random(0, 7);
-  //     currentvalue = randomValue;
-  //     M1Servo.write(servoPositions[randomValue]); // หมุน servo ไปยังตำแหน่งที่สุ่มได้
-  //     positionCount[randomValue]++;
-  //     lastServoTime = millis(); // อัพเดทเวลา
-  //   }
-  // }
-
-  // // การทำงานของ Servo Scoop
-  // if (isStarted && !isPaused)
-  // {
-  //   if (millis() - lastScoopTime >= scoopInterval)
-  //   {
-  //     M3Servo.write(30); // หมุน servo scoop เพื่อดันวัตถุ
-  //     delay(500);         // รอให้การ scoop เสร็จสิ้น
-  //     myservo3.write(defaultServo3);;  // คืนค่า servo กลับตำแหน่งเริ่มต้น
-  //     lastScoopTime = millis();
-  //   }
-  // }
-
-  // // การตรวจจับวัตถุจาก IR sensor
-  // if (digitalRead(irReceiverPin) == LOW)
-  // {
-  //   M2Servo.write(180);
-  //   digitalWrite(ledIRPin, HIGH); // เปิด LED แสดงว่ามีการตรวจจับวัตถุ
-  // }
-  // else
-  // {
-  //   M2Servo.write(0);
-  //   digitalWrite(ledIRPin, LOW); // ปิด LED เมื่อไม่มีการตรวจจับวัตถุ
-  // }
 }
