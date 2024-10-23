@@ -21,3 +21,7 @@ fetch("/getcalibation").then((R) => R.json()).then((data) => {
     }
   });
 });
+
+function testCalibation(servo,position) {
+  fetch(`/testcalibation?servo=${servo}&position=${position}`)
+}

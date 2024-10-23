@@ -38,9 +38,9 @@ extern bool isSelected;
 extern bool isFirsttime;
 const int pinTraffic = 19;
 const int pinIn[] = {27, 26, 25}; // DIP switch pins
-const int servoPin = 12;
-const int servoPin2 = 13;
-const int servoScoop = 19;
+const int M1ServoPIN = 25;
+const int M2ServoPIN = 26;
+const int M3ServoPIN = 27;
 const int irReceiverPin = 5;
 
 const int ledStartPin = 16; // Green LED for Start

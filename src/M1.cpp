@@ -35,7 +35,7 @@ void M1Read(int &open, int &close)
 }
 
 void M1Set(int open, int close)
-{ 
+{
   EEPROM.put(0, open);
   EEPROM.put(4, close);
   EEPROM.commit();

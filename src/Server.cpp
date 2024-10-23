@@ -182,10 +182,20 @@ void calibation(AsyncWebServerRequest *request)
   // Redirect back to the main page
   request->redirect("/");
 }
-void testCalibation(AsyncWebServerRequest *reqest)
+void testCalibation(AsyncWebServerRequest *request)
 {
   String Servo = request->getParam("servo")->value();
-  String position = request->getParam("position")->value();
+  int position = request->getParam("position")->value().toInt();
+  if(Servo == "M1"){
+    M1Servo.write(position);
+  }
+  if(Servo == "M2"){
+    M2Servo.write(position);
+  }
+  if(Servo == "M3"){
+    M3Servo.write(position);
+  }
+  request->send(200, "text/plain", "testcalibation....");
 }
 void Home(AsyncWebServerRequest *request)
 {

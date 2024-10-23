@@ -69,42 +69,80 @@
     </div>
 
     <div class="servo-controls">
-      <h2>Calibation</h2> 
+      <h2>Calibation</h2>
       <form action="/calibation" method="get">
         <h3>M1</h3>
-        <label for="m1open">M1 Open</label>
-        <input type="number" name="m1open" id="m1open">
-        <label for="m1close">M1 Close</label>
-        <input type="number" name="m1close" id="m1close">
+        <div class="column-layout">
+          <label for="m1open">M1 Open</label>
+          <input type="number" name="m1open" id="m1open">
+          <button type="button" onclick="testCalibation('M1', document.getElementById('m1open').value)">Test</button>
+        </div>
+
+        <div class="column-layout">
+          <label for="m1close">M1 Close</label>
+          <input type="number" name="m1close" id="m1close">
+          <button type="button" onclick="testCalibation('M1', document.getElementById('m1close').value)">Test</button>
+        </div>
+
         <h3>M2</h3>
-        <label for="m2open">M2 Open</label>
-        <input type="number" name="m2open" id="m2open">
-        <label for="m2close">M2 Close</label>
-        <input type="number" name="m2close" id="m2close">
+        <div class="column-layout">
+          <label for="m2open">M2 Open</label>
+          <input type="number" name="m2open" id="m2open">
+          <button type="button" onclick="testCalibation('M2', document.getElementById('m2open').value)">Test</button>
+        </div>
+
+        <div class="column-layout">
+          <label for="m2close">M2 Close</label>
+          <input type="number" name="m2close" id="m2close">
+          <button type="button" onclick="testCalibation('M2', document.getElementById('m2close').value)">Test</button>
+        </div>
+
         <h3>M3</h3>
-        <label for="m3pos0">Position 0</label>
-        <input type="number" name="m3pos0" id="m3pos0">
+        <div class="column-layout">
+          <label for="m3pos0">Position 0</label>
+          <input type="number" name="m3pos0" id="m3pos0">
+          <button type="button" onclick="testCalibation('M3', document.getElementById('m3pos0').value)">Test</button>
+        </div>
 
-        <label for="m3pos1">Position 1</label>
-        <input type="number" name="m3pos1" id="m3pos1">
+        <div class="column-layout">
+          <label for="m3pos1">Position 1</label>
+          <input type="number" name="m3pos1" id="m3pos1">
+          <button type="button" onclick="testCalibation('M3', document.getElementById('m3pos1').value)">Test</button>
+        </div>
 
-        <label for="m3pos2">Position 2</label>
-        <input type="number" name="m3pos2" id="m3pos2">
+        <div class="column-layout">
+          <label for="m3pos2">Position 2</label>
+          <input type="number" name="m3pos2" id="m3pos2">
+          <button type="button" onclick="testCalibation('M3', document.getElementById('m3pos2').value)">Test</button>
+        </div>
 
-        <label for="m3pos3">Position 3</label>
-        <input type="number" name="m3pos3" id="m3pos3">
+        <div class="column-layout">
+          <label for="m3pos3">Position 3</label>
+          <input type="number" name="m3pos3" id="m3pos3">
+          <button type="button" onclick="testCalibation('M3', document.getElementById('m3pos3').value)">Test</button>
+        </div>
 
-        <label for="m3pos4">Position 4</label>
-        <input type="number" name="m3pos4" id="m3pos4">
+        <div class="column-layout">
+          <label for="m3pos4">Position 4</label>
+          <input type="number" name="m3pos4" id="m3pos4">
+          <button type="button" onclick="testCalibation('M3', document.getElementById('m3pos4').value)">Test</button>
+        </div>
 
-        <label for="m3pos5">Position 5</label>
-        <input type="number" name="m3pos5" id="m3pos5">
+        <div class="column-layout">
+          <label for="m3pos5">Position 5</label>
+          <input type="number" name="m3pos5" id="m3pos5">
+          <button type="button" onclick="testCalibation('M3', document.getElementById('m3pos5').value)">Test</button>
+        </div>
 
-        <label for="m3pos6">Position 6</label>
-        <input type="number" name="m3pos6" id="m3pos6">
+        <div class="column-layout">
+          <label for="m3pos6">Position 6</label>
+          <input type="number" name="m3pos6" id="m3pos6">
+          <button type="button" onclick="testCalibation('M3', document.getElementById('m3pos6').value)">Test</button>
+        </div>
 
         <button type="submit">Set</button>
       </form>
+
     </div>
   </div>
 

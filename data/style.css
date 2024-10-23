@@ -7,8 +7,20 @@ body {
   color: #333;
 }
 
+.column-layout {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  /* Adjusts space between elements */
+}
+.input{
+  width: 30%;
+}
+
 /* Panel styles */
-.monitor-panel, .control-panel {
+.monitor-panel,
+.control-panel {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -48,7 +60,7 @@ body {
 }
 
 .tab-content {
- display: active;
+  display: active;
 }
 
 .tab-content.active {
@@ -62,12 +74,15 @@ table {
   margin-top: 20px;
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid #007acc;
   text-align: center;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   background-color: #f9f9f9;
 }
@@ -112,13 +127,13 @@ input[type="number"] {
   border: 1px solid #ccc;
 }
 
-h1{
+h1 {
   color: #007acc;
 }
 
 .status-text {
   width: 81.5%;
-  display:flex;
+  display: flex;
   justify-content: space-between;
 }
 
@@ -127,12 +142,14 @@ h1{
 }
 
 @media only screen and (max-width: 768px) {
-  .monitor-panel, .control-panel {
+
+  .monitor-panel,
+  .control-panel {
     width: 100%;
     margin-right: 0;
     margin-bottom: 20px;
   }
-  
+
   .status-text {
     flex-direction: column;
   }

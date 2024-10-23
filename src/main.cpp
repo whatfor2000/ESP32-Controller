@@ -24,16 +24,9 @@ void setup()
   pinMode(ledStartPin, OUTPUT);
   pinMode(ledStopPin, OUTPUT);
 
-  M1Servo.attach(servoPin);
-  M2Servo.attach(servoPin2);
-  M3Servo.attach(servoScoop);
-
-  // Home();
-  M1Servo.write(defaultServo1);
-  M2Servo.write(defaultServo2);
-  ;
-  M3Servo.write(defaultServo3);
-  ;
+  M1Servo.attach(M1ServoPIN);
+  M2Servo.attach(M2ServoPIN);
+  M3Servo.attach(M3ServoPIN);
 
   Serial.begin(115200);
 
@@ -62,6 +55,7 @@ void setup()
   server.on("/selected", HTTP_GET, selected);
   server.on("/getcalibation", HTTP_GET, getCalibationValueJson);
   server.on("/calibation", HTTP_GET, calibation);
+  server.on("/testcalibation", HTTP_GET, testCalibation);
 
   // Start the server
   server.begin();
