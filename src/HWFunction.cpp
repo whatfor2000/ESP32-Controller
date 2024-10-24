@@ -1,13 +1,6 @@
 #include "HWFunction.h"
 #include "Config.h" // Include your Config.h to access shared variables
 
-void updateElapsedTime()
-{
-  if (isStarted && !isPaused)
-  {
-    elapsedTime = millis() - startTime;
-  }
-}
 
 String formatTime(unsigned long milliseconds)
 {
@@ -30,7 +23,22 @@ int calculateTotalCount()
   }
   return total;
 }
-
+void timepause() 
+{
+  if (isStarted) // Only allow pausing if the system has started
+  {
+    if (isPaused) // If already paused, resume the system
+    {
+      isPaused = false;
+      startTime += millis() - pauseTime; // Adjust start time to continue from where it was paused
+    }
+    else // If running, pause the system
+    {
+      isPaused = true;
+      pauseTime = millis(); // Record the time when paused
+    }
+  }
+}
 void start()
 {
   if (isStarted)
@@ -54,13 +62,11 @@ void start()
     if (isFirsttime)
     {
       startTime = millis(); // Start fresh
-      lastScoopTime = millis();
-      lastServoTime = millis();
       isFirsttime = false; // Set the first time flag to false after starting
     }
     else
     {
-      startTime = millis() - elapsedTime; // Continue from where it was paused
+      startTime = millis() - time_now; // Continue from where it was paused
     }
   }
 }

@@ -4,9 +4,9 @@
 #include <Arduino.h>
 
 // Function prototypes
-void updateElapsedTime();
 String formatTime(unsigned long milliseconds);
 int calculateTotalCount();
+void timepause();
 void start();
 int readAIValue();
 

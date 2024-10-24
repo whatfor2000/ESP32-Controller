@@ -47,8 +47,7 @@ void script(AsyncWebServerRequest *request)
 void generateJSON(AsyncWebServerRequest *request)
 {
   String json = "{";
-  json += "\"elapsedTime\":\"" + formatTime(elapsedTime) + "\",";
-  json += "\"isStarted\":" + String(isStarted ? "true" : "false") + ",";
+  json += "\"Time\":\"" + formatTime(startTime) + "\","; // Assuming formatTime(time_now) is correct
   json += "\"positionCount\":[";
   for (int i = 0; i < 7; i++)
   {
@@ -57,12 +56,13 @@ void generateJSON(AsyncWebServerRequest *request)
       json += ",";
   }
   json += "],";
-  json += "\"totalCount\":" + String(calculateTotalCount()) + ",";
-  json += "\"currentValue\":" + String(currentvalue) + ",";
-  json += "\"isManualMode\":" + String(isManualMode ? "true" : "false");
+  json += "\"totalCount\":" + String(calculateTotalCount()) + ","; // Assuming calculateTotalCount() is correct
+  json += "\"Status\":" + String((CurrentState == OFF) ? "false" : "true") + ","; // Corrected true/false
+  json += "\"currentValue\":\"" + String(aivalue) + "\""; // Corrected JSON format, Mode should be a string
   json += "}";
   request->send(200, "application/json", json);
 }
+
 
 // New function for generating servo settings JSON
 void getCalibationValueJson(AsyncWebServerRequest *request)
@@ -81,63 +81,43 @@ void getCalibationValueJson(AsyncWebServerRequest *request)
   json += "\"m3pos3\":" + String(m3pos3) + ",";
   json += "\"m3pos4\":" + String(m3pos4) + ",";
   json += "\"m3pos5\":" + String(m3pos5) + ",";
-  json += "\"m3pos6\":" + String(m3pos6);
+  json += "\"m3pos6\":" + String(m3pos6) + ",";
+  json += "\"Mode\":" + String(CurrentMode); // Corrected JSON format, Mode should be a string
   json += "}";
   request->send(200, "application/json", json);
 }
 void Pause(AsyncWebServerRequest *request)
 {
-  isStarted = false;
-  isPaused = false;
-  pauseTime = startTime;
+  CurrentState = PAUSE;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
 
 void reset(AsyncWebServerRequest *request)
 {
-  isStarted = false;
-  isPaused = false;
-  elapsedTime = 0;
-  for (int i = 0; i < 7; i++)
-  {
-    positionCount[i] = 0;
-  }
-  digitalWrite(ledStartPin, LOW);
-  digitalWrite(ledStopPin, HIGH);
-  // Home();
-  M1Servo.write(defaultServo1);
-  M2Servo.write(defaultServo2);
-  ;
-  M3Servo.write(defaultServo3);
-  ;
+  CurrentState = OFF;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
 
 void manualmode(AsyncWebServerRequest *request)
 {
-  isManualMode = true;
-  start();
-  isFirsttime = false;
+  CurrentMode = Manual;
+  CurrentState = M1;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
 
 void randommode(AsyncWebServerRequest *request)
 {
-  isManualMode = false;
-  start();
-  isFirsttime = false;
+  CurrentMode = Random;
+  CurrentState = M1;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }
 
 void selected(AsyncWebServerRequest *request)
 {
-  digitalWrite(ledIRPin, LOW);
-  M2Servo.write(0);
-  isSelected = true;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }

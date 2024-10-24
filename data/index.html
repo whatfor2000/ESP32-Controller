@@ -49,19 +49,21 @@
       </tr>
     </table>
     <div class="status-text">
-      <div class="status-text-content">Status: <span id="statusMessage"></span></div>
+      <div class="status-text-content">Status: <span id="status"></span></div>
       <div class="status-text-content">Current Rice Grade: <span id="currentvalue"></span></div>
     </div>
-    <p>Time: <span id="elapsedTime"></span></p>
+    <p>Time: <span id="Time"></span></p>
     <p>Total Count: <span id="totalCount"></span></p>
+    <span id="test"></span>
   </div>
 
   <!-- Control Panel -->
   <div class="control-panel">
     <div class="tabs">
-      <button class="tab-link active" onclick="openTab(event)">Manual Mode</button>
-      <button class="tab-link" onclick="openTab(event)">Random Mode</button>
+      <button class="tab-link active" onclick="openTab(event, 'manual')">Manual Mode</button>
+      <button class="tab-link" onclick="openTab(event, 'random')">Random Mode</button>
     </div>
+
     <div>
       <button id="startButton" onclick="start()">Start</button>
       <button onclick="location.href='/pause'">Pause</button>

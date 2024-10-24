@@ -27,11 +27,9 @@ extern const char *password;
 // Variables to track time, positions, and state
 extern unsigned long startTime;
 extern unsigned long pauseTime;
-extern unsigned long elapsedTime;
+extern unsigned long time_now;
 extern bool isStarted;
 extern bool isPaused;
-extern bool isManualMode;
-extern bool isSelected;
 
 //=================================hardware===================================
 extern bool isFirsttime;
@@ -52,11 +50,6 @@ const int numberOfPositions = 7;
 extern int positionCount[7];
 extern int currentvalue;
 
-// Timing variables for millis()
-extern unsigned long lastScoopTime;
-extern unsigned long scoopInterval;
-extern unsigned long lastServoTime;
-extern unsigned long servoInterval;
 
 // Create servo objects
 extern Servo M1Servo;

@@ -5,21 +5,15 @@ const char *password = "12345678";
 // Initialize variables
 unsigned long startTime = 0;
 unsigned long pauseTime = 0;
-unsigned long elapsedTime = 0;
+unsigned long time_now = 0;
 bool isStarted = false;
 bool isPaused = false;
-bool isManualMode = true;
-bool isSelected = false;
 
 bool isFirsttime = true;
 
 int positionCount[7] = {0};
 int currentvalue = 0;
 
-unsigned long lastScoopTime = 0;
-unsigned long scoopInterval = 1000; // Time for scoop
-unsigned long lastServoTime = 0;
-unsigned long servoInterval = 2000; // Time for servo
 
 // Initialize servo objects
 Servo M1Servo;
@@ -43,7 +37,7 @@ int m3pos4 = 0;
 int m3pos5 = 0; 
 int m3pos6 = 0;   
 
-State CurrentState = M1;
+State CurrentState = OFF;
 Mode CurrentMode = Random;
 
 int aivalue = 7;

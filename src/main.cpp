@@ -3,7 +3,6 @@
 #include <ESPAsyncWebServer.h>
 #include <ESP32Servo.h>
 #include <EEPROM.h>
-#include <ArduinoJson.h>
 #include "Server.h"
 #include "Config.h"
 #include "HWFunction.h"
@@ -63,7 +62,7 @@ void setup()
   server.on("/testcalibation", HTTP_GET, testCalibation);
 
   // Start the server
-  // server.begin();
+  server.begin();
   //
   M1Read(m1open, m1close);
   M2Read(m2open, m2close);
@@ -72,7 +71,6 @@ void setup()
 int m1delay = 1000;
 int m2delay = 1000;
 int m3delay = 1000;
-unsigned long time_now = 0;
 unsigned long time_period_m1 = 0;
 unsigned long time_period_m2 = 0;
 unsigned long time_period_m3 = 0;
@@ -80,28 +78,39 @@ unsigned long time_period_m3 = 0;
 bool ism1open = false;
 void loop()
 {
-  time_now = millis();
-
   switch (CurrentState)
   {
   case OFF:
+    M2Close();
+    M1Close();
+    M3Move(6);
     digitalWrite(AIoutPin, LOW); // Ensure AI output is off
+    startTime = 0;
+    time_period_m1 = 0;
+    time_period_m2 = 0;
+    time_period_m3 = 0;
     break;
 
   case PAUSE:
-    // No actions during pause state
+    timepause();
+    M2Close();
+    M1Close();
+    M3Move(6);
+    digitalWrite(AIoutPin, LOW); // Ensure AI output is off
+    // No other actions during PAUSE state
     break;
 
   case M1:
-    M2Close();
+    start();
     digitalWrite(AIoutPin, LOW); // Turn off AI output in M1
+
     if (digitalRead(irReceiverPin) == HIGH)
     {
       CurrentState = AI;            // Transition to AI state
       M1Close();                    // Call M1 close function
       digitalWrite(AIoutPin, HIGH); // Activate AI output
     }
-    else if (time_now - time_period_m1 > m1delay)
+    else if (startTime - time_period_m1 > m1delay)
     {
       // Toggle the state of M1 based on its current state
       if (!ism1open)
@@ -115,47 +124,51 @@ void loop()
         ism1open = false; // Update state to closed
       }
 
-      // Optionally, you may want to reset time_period here
-      time_period_m1 = time_now; // Reset the time_period to the current time
+      time_period_m1 = startTime; // Reset the time_period to the current time
     }
     break;
 
   case AI:
 
+    startTime = millis();
     if (CurrentMode == Manual)
     {
       aivalue = readAIValue(); // Get AI value
     }
     else
     {
-      aivalue = random(0, 8); // Generate a random integer between 0 and 7
+      aivalue = random(0, 7); // Generate a random integer between 0 and 7
     }
     if (aivalue != 7) // Condition to change state
     {
+      positionCount[aivalue] += 1;
       CurrentState = M3;         // Transition to M3 state if condition met
-      time_period_m3 = time_now; // Reset the time_period to the current time
+      time_period_m3 = startTime; // Reset the time_period to the current time
     }
     break;
 
   case M3:
+    startTime = millis();
     M3Move(aivalue); // Call M3 movement function with the current AI value
-    if (time_now - time_period_m3 > m3delay)
+    if (startTime - time_period_m3 > m3delay)
     {
       CurrentState = M2;
-      time_period_m3 = time_now;
-      time_period_m2 = time_now; // Reset the time_period to the current time
+      time_period_m3 = startTime;
+      time_period_m2 = startTime; // Reset the time_period to the current time
     }
 
     break;
 
   case M2:
+    startTime = millis();
     M2Open();
-    if (time_now - time_period_m2 > m2delay)
+    if (startTime - time_period_m2 > m2delay)
     {
 
+      M2Close();
       CurrentState = M1;
-      time_period_m2 = time_now;
-      time_period_m1 = time_now;
+      time_period_m2 = startTime;
+      time_period_m1 = startTime;
     }
     // Add any specific logic for M2 here if needed
     break;
