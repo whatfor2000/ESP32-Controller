@@ -10,10 +10,12 @@
 #include "M1.h"
 #include "M2.h"
 #include "M3.h"
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
 
 void setup()
 {
-
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // disable detector
   // Initialize EEPROM with size enough to store your data
   EEPROM.begin(44); // 4 bytes per int, total of 3 integers
 
@@ -79,7 +81,6 @@ bool ism1open = false;
 void loop()
 {
   time_now = millis();
-  // Serial.println(String(time_now));
 
   switch (CurrentState)
   {
@@ -93,7 +94,6 @@ void loop()
 
   case M1:
     M2Close();
-    // Serial.println("M1");
     digitalWrite(AIoutPin, LOW); // Turn off AI output in M1
     if (digitalRead(irReceiverPin) == HIGH)
     {
@@ -103,39 +103,42 @@ void loop()
     }
     else if (time_now - time_period_m1 > m1delay)
     {
-      Serial.println("m1");
       // Toggle the state of M1 based on its current state
       if (!ism1open)
       {
-        Serial.println("m1 open");
         M1Open();        // Open M1
         ism1open = true; // Update state to open
       }
       else
       {
-        Serial.println("m1 close");
         M1Close();        // Close M1
         ism1open = false; // Update state to closed
       }
 
       // Optionally, you may want to reset time_period here
-      time_period_m1 = time_now;    // Reset the time_period to the current time
+      time_period_m1 = time_now; // Reset the time_period to the current time
     }
     break;
 
   case AI:
-    aivalue = readAIValue(); // Get AI value
-    Serial.println(aivalue); // Print AI value
-    if (aivalue != 7)        // Condition to change state
+
+    if (CurrentMode == Manual)
     {
-      CurrentState = M3; // Transition to M3 state if condition met
+      aivalue = readAIValue(); // Get AI value
+    }
+    else
+    {
+      aivalue = random(0, 8); // Generate a random integer between 0 and 7
+    }
+    if (aivalue != 7) // Condition to change state
+    {
+      CurrentState = M3;         // Transition to M3 state if condition met
       time_period_m3 = time_now; // Reset the time_period to the current time
     }
     break;
 
   case M3:
-    Serial.println("M3  " + String(aivalue)); // Print current AI value in M3
-    M3Move(aivalue);                          // Call M3 movement function with the current AI value
+    M3Move(aivalue); // Call M3 movement function with the current AI value
     if (time_now - time_period_m3 > m3delay)
     {
       CurrentState = M2;

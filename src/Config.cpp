@@ -44,5 +44,6 @@ int m3pos5 = 0;
 int m3pos6 = 0;   
 
 State CurrentState = M1;
+Mode CurrentMode = Random;
 
 int aivalue = 7;

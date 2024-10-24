@@ -90,7 +90,11 @@ enum State
     M2,
 };
 extern State CurrentState;
-
+enum  Mode {
+    Manual,
+    Random
+};
+extern Mode CurrentMode;
 extern int aivalue;
 //=================================hardware===================================
 
