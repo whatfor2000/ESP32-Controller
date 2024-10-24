@@ -65,12 +65,16 @@ void start()
   }
 }
 
-int readDIPSwitch()
+int readAIValue()
 {
   int value = 0;
+
+  // Read the pins and shift the bits accordingly
   for (int i = 0; i < 3; i++)
   {
-    value |= (digitalRead(pinIn[i]) == LOW) << i;
+    int pinValue = digitalRead(pinIn[i]);
+    value |= (pinValue << i); // Shift the pinValue by i bits and OR it to the value
   }
-  return value;
+
+  return value; // Return the decimal value
 }

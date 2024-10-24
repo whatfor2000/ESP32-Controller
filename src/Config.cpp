@@ -41,4 +41,8 @@ int m3pos2 = 0;
 int m3pos3 = 0;
 int m3pos4 = 0;
 int m3pos5 = 0; 
-int m3pos6 = 0;       
+int m3pos6 = 0;   
+
+State CurrentState = M1;
+
+int aivalue = 7;

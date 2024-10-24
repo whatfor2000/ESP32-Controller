@@ -5,16 +5,23 @@
 #include <unordered_map>
 void M3Move(int position)
 {   
-    M3Read(m3pos0,m3pos1,m3pos2,m3pos3,m3pos4,m3pos5,m3pos6);
-    std::unordered_map<int, int *> hashmap;
-    hashmap[0] = &m3pos0;
-    hashmap[1] = &m3pos1;
-    hashmap[2] = &m3pos2;
-    hashmap[3] = &m3pos3;
-    hashmap[4] = &m3pos4;
-    hashmap[5] = &m3pos5;
-    hashmap[6] = &m3pos6;
-    M3Servo.write(*hashmap[position]);
+    // Read positions if necessary
+    M3Read(m3pos0, m3pos1, m3pos2, m3pos3, m3pos4, m3pos5, m3pos6);
+    // Store your position variables in an array
+    int m3Positions[7] = {m3pos0, m3pos1, m3pos2, m3pos3, m3pos4, m3pos5, m3pos6};
+    
+    
+    // Check if the position index is within the valid range (0-6)
+    if (position >= 0 && position <= 6)
+    {
+        // Move the servo to the desired position
+        M3Servo.write(m3Positions[position]);
+        Serial.println("M3Servo moved to position: " + String(m3Positions[position]));
+    }
+    else
+    {
+        Serial.println("Invalid position value: " + String(position));
+    }
 }
 void M3Read(int &POS0, int &POS1, int &POS2, int &POS3, int &POS4, int &POS5, int &POS6)
 {

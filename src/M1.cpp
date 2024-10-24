@@ -40,3 +40,4 @@ void M1Set(int open, int close)
   EEPROM.put(4, close);
   EEPROM.commit();
 }
+

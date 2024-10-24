@@ -8,6 +8,6 @@ void updateElapsedTime();
 String formatTime(unsigned long milliseconds);
 int calculateTotalCount();
 void start();
-int readDIPSwitch();
+int readAIValue();
 
 #endif // HWFUNCTION_H

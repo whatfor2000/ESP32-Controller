@@ -19,7 +19,6 @@
 //  m3 5 => 36
 //  m3 6 => 40
 
-
 //=================================web===================================
 // Wi-Fi Credentials
 extern const char *ssid;
@@ -36,12 +35,12 @@ extern bool isSelected;
 
 //=================================hardware===================================
 extern bool isFirsttime;
-const int pinTraffic = 19;
-const int pinIn[] = {27, 26, 25}; // DIP switch pins
+const int AIoutPin = 19;
+const int pinIn[] = {2, 4, 5}; // DIP switch pins
 const int M1ServoPIN = 25;
 const int M2ServoPIN = 26;
 const int M3ServoPIN = 27;
-const int irReceiverPin = 5;
+const int irReceiverPin = 15;
 
 const int ledStartPin = 16; // Green LED for Start
 const int ledStopPin = 17;  // Red LED for Stop
@@ -78,18 +77,21 @@ extern int m3pos1;
 extern int m3pos2;
 extern int m3pos3;
 extern int m3pos4;
-extern int m3pos5; 
+extern int m3pos5;
 extern int m3pos6;
 
-enum State {
+enum State
+{
     OFF,
-    M1RUN,
+    PAUSE,
+    M1,
     AI,
-    M3RUN,
+    M3,
     M2,
 };
-State currentState = OFF;
+extern State CurrentState;
 
+extern int aivalue;
 //=================================hardware===================================
 
 #endif // CONFIG_H
