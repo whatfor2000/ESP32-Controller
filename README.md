@@ -101,3 +101,27 @@ This project is licensed under the **MIT License**. See the LICENSE file for mor
 ## Contributing
 
 Contributions are welcome! Feel free to fork the repository, make improvements, and submit pull requests.
+
+
+# AI Interface
+
+- STATUS (output pin 20) 
+- ENABLE (input pin 32)
+- AIDATAIN (input pin 2,4,5)
+
+```         
+            ________________
+STATUS   __/                \______                
+         ___  ______________  _____
+AIDATAIN    \/              \/
+Bit 1    ___/\______________/\_____
+         ___  ______________  _____
+AIDATAIN    \/              \/
+Bit 2    ___/\______________/\_____
+         ___  ______________  _____
+AIDATAIN    \/              \/
+Bit 3    ___/\______________/\_____
+                         ___
+ENABLE   _______________/   \______
+
+```

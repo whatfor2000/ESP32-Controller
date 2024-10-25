@@ -51,7 +51,7 @@ int readAIValue()
   // Read the pins and shift the bits accordingly
   for (int i = 0; i < 3; i++)
   {
-    int pinValue = digitalRead(pinIn[i]);
+    int pinValue = digitalRead(AIDATAIN[i]);
     value |= (pinValue << i); // Shift the pinValue by i bits and OR it to the value
   }
 

@@ -18,11 +18,11 @@ void setup()
   EEPROM.begin(44); // 4 bytes per int, total of 3 integers
   display.setBrightness(0x0f);
   pinMode(irReceiverPin, INPUT_PULLUP);
-  pinMode(AIenPin, INPUT_PULLUP);
-  pinMode(AIoutPin, OUTPUT);
+  pinMode(ENABLE, INPUT_PULLUP);
+  pinMode(STATUS, OUTPUT);
   for (int i = 0; i < 3; i++)
   {
-    pinMode(pinIn[i], INPUT_PULLUP);
+    pinMode(AIDATAIN[i], INPUT_PULLUP);
   }
   pinMode(LEDgreenPin, OUTPUT);
   pinMode(LEDyellowPin, OUTPUT);
@@ -93,7 +93,7 @@ void loop()
     M2Close();
     M1Close();
     M3Move(6);
-    digitalWrite(AIoutPin, LOW); // Ensure AI output is off
+    digitalWrite(STATUS, LOW); // Ensure AI output is off
     currentTime = 0;
     time_period_m1 = 0;
     time_period_m2 = 0;
@@ -106,7 +106,7 @@ void loop()
     M2Close();
     M1Close();
     M3Move(6);
-    digitalWrite(AIoutPin, LOW); // Ensure AI output is off
+    digitalWrite(STATUS, LOW); // Ensure AI output is off
     // No other actions during PAUSE state
     break;
 
@@ -139,7 +139,7 @@ void loop()
     break;
 
   case AI:
-    digitalWrite(AIoutPin, HIGH); // Activate AI output
+    digitalWrite(STATUS, HIGH); // Activate AI output
     digitalWrite(LEDyellowPin, HIGH);
     currentTime = time_now - startTime;
 
@@ -151,12 +151,12 @@ void loop()
     {
       aivalue = random(0, 7); // Generate a random integer between 0 and 7
     }
-    if ((aivalue != 7) && (digitalRead(AIenPin) == LOW)) // Condition to change state
+    if ((aivalue != 7) && (digitalRead(ENABLE) == LOW)) // Condition to change state
     {
       positionCount[aivalue] += 1;
       CurrentState = M3;            // Transition to M3 state if condition met
       time_period_m3 = currentTime; // Reset the time_period to the current time
-      digitalWrite(AIoutPin, LOW);  // Turn off AI output in M1
+      digitalWrite(STATUS, LOW);  // Turn off AI output in M1
       digitalWrite(LEDyellowPin, LOW);
     }
     break;
