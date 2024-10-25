@@ -35,11 +35,13 @@ extern bool isPaused;
 //=================================hardware===================================
 const int AIoutPin = 20;
 
+const int AIenPin = 12;
+const int irReceiverPin = 13;
+
 const int pinIn[] = {2, 4, 5}; // DIP switch pins
 const int M1ServoPIN = 25;
 const int M2ServoPIN = 26;
 const int M3ServoPIN = 27;
-const int irReceiverPin = 15;
 
 const int ledStartPin = 16; // Green LED for Start
 const int ledStopPin = 17;  // Red LED for Stop

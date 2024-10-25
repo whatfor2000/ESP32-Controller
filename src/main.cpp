@@ -18,6 +18,7 @@ void setup()
   EEPROM.begin(44); // 4 bytes per int, total of 3 integers
   display.setBrightness(0x0f);
   pinMode(irReceiverPin, INPUT_PULLUP);
+  pinMode(AIenPin, INPUT_PULLUP);
   pinMode(ledIRPin, OUTPUT);
   pinMode(AIoutPin, OUTPUT);
   for (int i = 0; i < 3; i++)
@@ -108,7 +109,7 @@ void loop()
     currentTime = time_now - startTime;
     digitalWrite(AIoutPin, LOW); // Turn off AI output in M1
 
-    if (digitalRead(irReceiverPin) == HIGH)
+    if (digitalRead(irReceiverPin) == LOW) 
     {
       CurrentState = AI;            // Transition to AI state
       M1Close();                    // Call M1 close function
@@ -143,7 +144,7 @@ void loop()
     {
       aivalue = random(0, 7); // Generate a random integer between 0 and 7
     }
-    if (aivalue != 7) // Condition to change state
+    if ((aivalue != 7) && (digitalRead(AIenPin) == LOW)) // Condition to change state
     {
       positionCount[aivalue] += 1;
       CurrentState = M3;            // Transition to M3 state if condition met
