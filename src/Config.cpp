@@ -4,6 +4,7 @@ const char *ssid = "BELLY RICE GRAIN CLASSIFICATION MACHINE";
 const char *password = "12345678";
 // Initialize variables
 unsigned long startTime = 0;
+unsigned long currentTime = 0;
 unsigned long pauseTime = 0;
 unsigned long time_now = 0;
 bool isStarted = false;

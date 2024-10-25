@@ -1,7 +1,6 @@
 #include "HWFunction.h"
 #include "Config.h" // Include your Config.h to access shared variables
 
-
 String formatTime(unsigned long milliseconds)
 {
   unsigned long totalSeconds = milliseconds / 1000;
@@ -23,51 +22,19 @@ int calculateTotalCount()
   }
   return total;
 }
-void timepause() 
-{
-  if (isStarted) // Only allow pausing if the system has started
-  {
-    if (isPaused) // If already paused, resume the system
-    {
-      isPaused = false;
-      startTime += millis() - pauseTime; // Adjust start time to continue from where it was paused
-    }
-    else // If running, pause the system
-    {
-      isPaused = true;
-      pauseTime = millis(); // Record the time when paused
-    }
+void timepause() {
+  if (!isPaused) {
+    isPaused = true;
+    pauseTime = time_now;  // Store the pause start time
   }
 }
-void start()
-{
-  if (isStarted)
-  {
-    if (isPaused) // If currently paused, we want to resume
-    {
-      isPaused = false;
-      startTime += millis() - pauseTime; // Adjust start time to continue counting from where it paused
-    }
-    else // If running, we want to pause
-    {
-      isPaused = true;
-      pauseTime = millis(); // Record the time when paused
-    }
-  }
-  else // Starting for the first time
-  {
-    isStarted = true;
-    isPaused = false;
 
-    if (isFirsttime)
-    {
-      startTime = millis(); // Start fresh
-      isFirsttime = false; // Set the first time flag to false after starting
-    }
-    else
-    {
-      startTime = millis() - time_now; // Continue from where it was paused
-    }
+void start() {
+  if (isPaused) {
+    isPaused = false;
+    startTime += time_now - pauseTime;  // Adjust startTime to account for the paused duration
+  } else {
+    startTime = time_now;  // Reset startTime if not previously paused
   }
 }
 

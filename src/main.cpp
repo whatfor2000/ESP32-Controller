@@ -78,21 +78,25 @@ unsigned long time_period_m3 = 0;
 bool ism1open = false;
 void loop()
 {
+
+  time_now = millis();
   switch (CurrentState)
   {
   case OFF:
+  for (int i = 0; i < 7; ++i) {
+        positionCount[i] = 0;
+    }
     M2Close();
     M1Close();
     M3Move(6);
     digitalWrite(AIoutPin, LOW); // Ensure AI output is off
-    startTime = 0;
+    currentTime = 0;
     time_period_m1 = 0;
     time_period_m2 = 0;
     time_period_m3 = 0;
     break;
 
   case PAUSE:
-    timepause();
     M2Close();
     M1Close();
     M3Move(6);
@@ -101,7 +105,7 @@ void loop()
     break;
 
   case M1:
-    start();
+    currentTime = time_now - startTime;
     digitalWrite(AIoutPin, LOW); // Turn off AI output in M1
 
     if (digitalRead(irReceiverPin) == HIGH)
@@ -110,7 +114,7 @@ void loop()
       M1Close();                    // Call M1 close function
       digitalWrite(AIoutPin, HIGH); // Activate AI output
     }
-    else if (startTime - time_period_m1 > m1delay)
+    else if (currentTime - time_period_m1 > m1delay)
     {
       // Toggle the state of M1 based on its current state
       if (!ism1open)
@@ -124,13 +128,13 @@ void loop()
         ism1open = false; // Update state to closed
       }
 
-      time_period_m1 = startTime; // Reset the time_period to the current time
+      time_period_m1 = currentTime; // Reset the time_period to the current time
     }
     break;
 
   case AI:
+    currentTime = time_now - startTime;
 
-    startTime = millis();
     if (CurrentMode == Manual)
     {
       aivalue = readAIValue(); // Get AI value
@@ -142,33 +146,33 @@ void loop()
     if (aivalue != 7) // Condition to change state
     {
       positionCount[aivalue] += 1;
-      CurrentState = M3;         // Transition to M3 state if condition met
-      time_period_m3 = startTime; // Reset the time_period to the current time
+      CurrentState = M3;            // Transition to M3 state if condition met
+      time_period_m3 = currentTime; // Reset the time_period to the current time
     }
     break;
 
   case M3:
-    startTime = millis();
+    currentTime = time_now - startTime;
     M3Move(aivalue); // Call M3 movement function with the current AI value
-    if (startTime - time_period_m3 > m3delay)
+    if (currentTime - time_period_m3 > m3delay)
     {
       CurrentState = M2;
-      time_period_m3 = startTime;
-      time_period_m2 = startTime; // Reset the time_period to the current time
+      time_period_m3 = currentTime;
+      time_period_m2 = currentTime; // Reset the time_period to the current time
     }
 
     break;
 
   case M2:
-    startTime = millis();
+    currentTime = time_now - startTime;
     M2Open();
-    if (startTime - time_period_m2 > m2delay)
+    if (currentTime - time_period_m2 > m2delay)
     {
 
       M2Close();
       CurrentState = M1;
-      time_period_m2 = startTime;
-      time_period_m1 = startTime;
+      time_period_m2 = currentTime;
+      time_period_m1 = currentTime;
     }
     // Add any specific logic for M2 here if needed
     break;

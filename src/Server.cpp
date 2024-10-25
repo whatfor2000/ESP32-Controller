@@ -47,7 +47,7 @@ void script(AsyncWebServerRequest *request)
 void generateJSON(AsyncWebServerRequest *request)
 {
   String json = "{";
-  json += "\"Time\":\"" + formatTime(startTime) + "\","; // Assuming formatTime(time_now) is correct
+  json += "\"Time\":\"" + formatTime(currentTime) + "\","; // Assuming formatTime(time_now) is correct
   json += "\"positionCount\":[";
   for (int i = 0; i < 7; i++)
   {
@@ -56,13 +56,12 @@ void generateJSON(AsyncWebServerRequest *request)
       json += ",";
   }
   json += "],";
-  json += "\"totalCount\":" + String(calculateTotalCount()) + ","; // Assuming calculateTotalCount() is correct
+  json += "\"totalCount\":" + String(calculateTotalCount()) + ",";                // Assuming calculateTotalCount() is correct
   json += "\"Status\":" + String((CurrentState == OFF) ? "false" : "true") + ","; // Corrected true/false
-  json += "\"currentValue\":\"" + String(aivalue) + "\""; // Corrected JSON format, Mode should be a string
+  json += "\"currentValue\":\"" + String(aivalue) + "\"";                         // Corrected JSON format, Mode should be a string
   json += "}";
   request->send(200, "application/json", json);
 }
-
 
 // New function for generating servo settings JSON
 void getCalibationValueJson(AsyncWebServerRequest *request)
@@ -88,6 +87,7 @@ void getCalibationValueJson(AsyncWebServerRequest *request)
 }
 void Pause(AsyncWebServerRequest *request)
 {
+  timepause();
   CurrentState = PAUSE;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
@@ -102,6 +102,7 @@ void reset(AsyncWebServerRequest *request)
 
 void manualmode(AsyncWebServerRequest *request)
 {
+  start();
   CurrentMode = Manual;
   CurrentState = M1;
   request->send(302, "text/plain", "Redirecting...");
@@ -110,6 +111,7 @@ void manualmode(AsyncWebServerRequest *request)
 
 void randommode(AsyncWebServerRequest *request)
 {
+  start();
   CurrentMode = Random;
   CurrentState = M1;
   request->send(302, "text/plain", "Redirecting...");
@@ -166,13 +168,16 @@ void testCalibation(AsyncWebServerRequest *request)
 {
   String Servo = request->getParam("servo")->value();
   int position = request->getParam("position")->value().toInt();
-  if(Servo == "M1"){
+  if (Servo == "M1")
+  {
     M1Servo.write(position);
   }
-  if(Servo == "M2"){
+  if (Servo == "M2")
+  {
     M2Servo.write(position);
   }
-  if(Servo == "M3"){
+  if (Servo == "M3")
+  {
     M3Servo.write(position);
   }
   request->send(200, "text/plain", "testcalibation....");

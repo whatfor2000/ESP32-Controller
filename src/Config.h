@@ -26,6 +26,7 @@ extern const char *password;
 
 // Variables to track time, positions, and state
 extern unsigned long startTime;
+extern unsigned long currentTime;
 extern unsigned long pauseTime;
 extern unsigned long time_now;
 extern bool isStarted;
