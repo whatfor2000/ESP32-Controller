@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 #include <ESP32Servo.h>
+#include <TM1637Display.h>
 
 //===============================eeprom asign===========================
 //
@@ -29,12 +30,14 @@ extern unsigned long startTime;
 extern unsigned long currentTime;
 extern unsigned long pauseTime;
 extern unsigned long time_now;
-extern bool isStarted;
 extern bool isPaused;
 
 //=================================hardware===================================
-extern bool isFirsttime;
-const int AIoutPin = 19;
+const int AIoutPin = 20;
+
+const int CLK = 19;
+const int DIO = 18;
+
 const int pinIn[] = {2, 4, 5}; // DIP switch pins
 const int M1ServoPIN = 25;
 const int M2ServoPIN = 26;
@@ -44,8 +47,6 @@ const int irReceiverPin = 15;
 const int ledStartPin = 16; // Green LED for Start
 const int ledStopPin = 17;  // Red LED for Stop
 const int ledIRPin = 4;     // Yellow LED for IR sensor detection
-
-const int numberOfPositions = 7;
 
 // Servo positions array
 extern int positionCount[7];
@@ -57,9 +58,6 @@ extern Servo M1Servo;
 extern Servo M2Servo;
 extern Servo M3Servo;
 
-extern int defaultServo1;
-extern int defaultServo2;
-extern int defaultServo3;
 
 extern int m1open;
 extern int m1close;

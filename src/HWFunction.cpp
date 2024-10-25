@@ -22,19 +22,25 @@ int calculateTotalCount()
   }
   return total;
 }
-void timepause() {
-  if (!isPaused) {
+void timepause()
+{
+  if (!isPaused)
+  {
     isPaused = true;
-    pauseTime = time_now;  // Store the pause start time
+    pauseTime = time_now; // Store the pause start time
   }
 }
 
-void start() {
-  if (isPaused) {
+void start()
+{
+  if (isPaused)
+  {
     isPaused = false;
-    startTime += time_now - pauseTime;  // Adjust startTime to account for the paused duration
-  } else {
-    startTime = time_now;  // Reset startTime if not previously paused
+    startTime += time_now - pauseTime; // Adjust startTime to account for the paused duration
+  }
+  else
+  {
+    startTime = time_now; // Reset startTime if not previously paused
   }
 }
 

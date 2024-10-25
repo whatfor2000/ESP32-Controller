@@ -7,10 +7,8 @@ unsigned long startTime = 0;
 unsigned long currentTime = 0;
 unsigned long pauseTime = 0;
 unsigned long time_now = 0;
-bool isStarted = false;
 bool isPaused = false;
 
-bool isFirsttime = true;
 
 int positionCount[7] = {0};
 int currentvalue = 0;
@@ -20,10 +18,6 @@ int currentvalue = 0;
 Servo M1Servo;
 Servo M2Servo;
 Servo M3Servo;
-
-int defaultServo1 = 0;
-int defaultServo2 = 180;
-int defaultServo3 = 0;
 
 int m1open = 0;
 int m1close = 0;

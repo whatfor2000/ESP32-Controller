@@ -184,13 +184,6 @@ void testCalibation(AsyncWebServerRequest *request)
 }
 void Home(AsyncWebServerRequest *request)
 {
-  isStarted = false;
-  isPaused = false;
-  M1Servo.write(defaultServo1);
-  M2Servo.write(defaultServo2);
-  ;
-  M3Servo.write(defaultServo3);
-  ;
   request->send(302, "text/plain", "Redirecting...");
   request->redirect("/");
 }

@@ -11,13 +11,13 @@
 #include "M3.h"
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
-
+TM1637Display display(CLK, DIO);
 void setup()
 {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // disable detector
   // Initialize EEPROM with size enough to store your data
   EEPROM.begin(44); // 4 bytes per int, total of 3 integers
-
+  display.setBrightness(0x0f);
   pinMode(irReceiverPin, INPUT_PULLUP);
   pinMode(ledIRPin, OUTPUT);
   pinMode(AIoutPin, OUTPUT);
@@ -78,13 +78,14 @@ unsigned long time_period_m3 = 0;
 bool ism1open = false;
 void loop()
 {
-
+  display.showNumberDec(calculateTotalCount(), false);
   time_now = millis();
   switch (CurrentState)
   {
   case OFF:
-  for (int i = 0; i < 7; ++i) {
-        positionCount[i] = 0;
+    for (int i = 0; i < 7; ++i)
+    {
+      positionCount[i] = 0;
     }
     M2Close();
     M1Close();
