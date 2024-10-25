@@ -79,7 +79,6 @@ unsigned long time_period_m3 = 0;
 bool ism1open = false;
 void loop()
 {
-  Serial.println(analogRead(irReceiverPinANALOG));
   displayBinary(aivalue);
   time_now = millis();
   switch (CurrentState)
@@ -118,7 +117,7 @@ void loop()
     currentTime = time_now - startTime;
 
     // if (digitalRead(irReceiverPin) == LOW)
-    if (analogRead(irReceiverPinANALOG) > 100)
+    if (analogRead(irReceiverPinANALOG) > 100 || digitalRead(irReceiverPin) == LOW)
     {
       CurrentState = AI; // Transition to AI state
       M1Close();         // Call M1 close function
