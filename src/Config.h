@@ -33,10 +33,11 @@ extern unsigned long time_now;
 extern bool isPaused;
 
 //=================================hardware===================================
-const int STATUS = 20;
+const int SYSSTATUS = 20;
 
 const int ENABLE = 32;
 const int irReceiverPin = 33;
+const int irReceiverPinANALOG = 34;
 
 const int AIDATAIN[] = {2, 4, 5}; // DIP switch pins
 const int M1ServoPIN = 25;

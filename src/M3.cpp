@@ -16,7 +16,8 @@ void M3Move(int position)
     {
         // Move the servo to the desired position
         M3Servo.write(m3Positions[position]);
-        Serial.println("M3Servo moved to position: " + String(m3Positions[position]));
+        // Serial.println("M3Servo moved to position: " + String(m3Positions[position]));
+        
     }
     else
     {

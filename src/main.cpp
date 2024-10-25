@@ -18,8 +18,9 @@ void setup()
   EEPROM.begin(44); // 4 bytes per int, total of 3 integers
   display.setBrightness(0x0f);
   pinMode(irReceiverPin, INPUT_PULLUP);
+  pinMode(irReceiverPinANALOG, INPUT);
   pinMode(ENABLE, INPUT_PULLUP);
-  pinMode(STATUS, OUTPUT);
+  pinMode(SYSSTATUS, OUTPUT);
   for (int i = 0; i < 3; i++)
   {
     pinMode(AIDATAIN[i], INPUT_PULLUP);
@@ -78,6 +79,7 @@ unsigned long time_period_m3 = 0;
 bool ism1open = false;
 void loop()
 {
+  Serial.println(analogRead(irReceiverPinANALOG));
   displayBinary(aivalue);
   time_now = millis();
   switch (CurrentState)
@@ -93,7 +95,7 @@ void loop()
     M2Close();
     M1Close();
     M3Move(6);
-    digitalWrite(STATUS, LOW); // Ensure AI output is off
+    digitalWrite(SYSSTATUS, LOW); // Ensure AI output is off
     currentTime = 0;
     time_period_m1 = 0;
     time_period_m2 = 0;
@@ -106,7 +108,7 @@ void loop()
     M2Close();
     M1Close();
     M3Move(6);
-    digitalWrite(STATUS, LOW); // Ensure AI output is off
+    digitalWrite(SYSSTATUS, LOW); // Ensure AI output is off
     // No other actions during PAUSE state
     break;
 
@@ -115,7 +117,8 @@ void loop()
     digitalWrite(LEDredPin, LOW);
     currentTime = time_now - startTime;
 
-    if (digitalRead(irReceiverPin) == LOW)
+    // if (digitalRead(irReceiverPin) == LOW)
+    if (analogRead(irReceiverPinANALOG) > 100)
     {
       CurrentState = AI; // Transition to AI state
       M1Close();         // Call M1 close function
@@ -139,7 +142,7 @@ void loop()
     break;
 
   case AI:
-    digitalWrite(STATUS, HIGH); // Activate AI output
+    digitalWrite(SYSSTATUS, HIGH); // Activate AI output
     digitalWrite(LEDyellowPin, HIGH);
     currentTime = time_now - startTime;
 
@@ -156,7 +159,7 @@ void loop()
       positionCount[aivalue] += 1;
       CurrentState = M3;            // Transition to M3 state if condition met
       time_period_m3 = currentTime; // Reset the time_period to the current time
-      digitalWrite(STATUS, LOW);  // Turn off AI output in M1
+      digitalWrite(SYSSTATUS, LOW);  // Turn off AI output in M1
       digitalWrite(LEDyellowPin, LOW);
     }
     break;
