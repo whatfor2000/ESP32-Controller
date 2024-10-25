@@ -9,5 +9,6 @@ int calculateTotalCount();
 void timepause();
 void start();
 int readAIValue();
+void displayBinary(int num);
 
 #endif // HWFUNCTION_H

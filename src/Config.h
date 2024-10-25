@@ -35,9 +35,6 @@ extern bool isPaused;
 //=================================hardware===================================
 const int AIoutPin = 20;
 
-const int CLK = 19;
-const int DIO = 18;
-
 const int pinIn[] = {2, 4, 5}; // DIP switch pins
 const int M1ServoPIN = 25;
 const int M2ServoPIN = 26;
@@ -91,3 +88,8 @@ extern int aivalue;
 //=================================hardware===================================
 
 #endif // CONFIG_H
+
+
+const int CLK = 19;
+const int DIO = 18;
+extern TM1637Display display;

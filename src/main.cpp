@@ -11,7 +11,6 @@
 #include "M3.h"
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
-TM1637Display display(CLK, DIO);
 void setup()
 {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // disable detector
@@ -78,7 +77,7 @@ unsigned long time_period_m3 = 0;
 bool ism1open = false;
 void loop()
 {
-  display.showNumberDec(calculateTotalCount(), false);
+  displayBinary(aivalue);
   time_now = millis();
   switch (CurrentState)
   {

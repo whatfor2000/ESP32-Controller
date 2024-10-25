@@ -57,3 +57,21 @@ int readAIValue()
 
   return value; // Return the decimal value
 }
+
+const uint8_t SEG_ONE = 0x06;  // Segment pattern for "1"
+const uint8_t SEG_ZERO = 0x3F; // Segment pattern for "0"
+void displayBinary(int num) {
+  // Limit number to 3 bits for display (000 to 111)
+  num = num & 0x7; // Mask to keep only 3 bits (0b0111)
+
+  // Create an array to hold each binary digit as "1" or "0"
+  uint8_t data[] = {
+    0x00,                              // First digit is blank
+    (num & 0x4) ? SEG_ONE : SEG_ZERO,  // Second digit: 4's place
+    (num & 0x2) ? SEG_ONE : SEG_ZERO,  // Third digit: 2's place
+    (num & 0x1) ? SEG_ONE : SEG_ZERO   // Fourth digit: 1's place
+  };
+
+  // Display the binary on the screen
+  display.setSegments(data);
+}

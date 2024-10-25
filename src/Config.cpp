@@ -36,3 +36,4 @@ State CurrentState = OFF;
 Mode CurrentMode = Random;
 
 int aivalue = 7;
+TM1637Display display(CLK, DIO);
