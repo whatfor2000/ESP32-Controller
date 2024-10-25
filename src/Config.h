@@ -35,17 +35,17 @@ extern bool isPaused;
 //=================================hardware===================================
 const int AIoutPin = 20;
 
-const int AIenPin = 12;
-const int irReceiverPin = 13;
+const int AIenPin = 32;
+const int irReceiverPin = 33;
 
 const int pinIn[] = {2, 4, 5}; // DIP switch pins
 const int M1ServoPIN = 25;
 const int M2ServoPIN = 26;
 const int M3ServoPIN = 27;
 
-const int ledStartPin = 16; // Green LED for Start
-const int ledStopPin = 17;  // Red LED for Stop
-const int ledIRPin = 4;     // Yellow LED for IR sensor detection
+const int LEDgreenPin = 14; // Green LED for Start
+const int LEDyellowPin = 12;     // Yellow LED for IR sensor detection
+const int LEDredPin = 13;  // Red LED for Stop
 
 // Servo positions array
 extern int positionCount[7];

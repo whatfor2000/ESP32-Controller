@@ -19,14 +19,14 @@ void setup()
   display.setBrightness(0x0f);
   pinMode(irReceiverPin, INPUT_PULLUP);
   pinMode(AIenPin, INPUT_PULLUP);
-  pinMode(ledIRPin, OUTPUT);
   pinMode(AIoutPin, OUTPUT);
   for (int i = 0; i < 3; i++)
   {
     pinMode(pinIn[i], INPUT_PULLUP);
   }
-  pinMode(ledStartPin, OUTPUT);
-  pinMode(ledStopPin, OUTPUT);
+  pinMode(LEDgreenPin, OUTPUT);
+  pinMode(LEDyellowPin, OUTPUT);
+  pinMode(LEDredPin, OUTPUT);
 
   M1Servo.attach(M1ServoPIN);
   M2Servo.attach(M2ServoPIN);
@@ -83,6 +83,9 @@ void loop()
   switch (CurrentState)
   {
   case OFF:
+    digitalWrite(LEDgreenPin, LOW);
+    digitalWrite(LEDyellowPin, LOW);
+    digitalWrite(LEDredPin, HIGH);
     for (int i = 0; i < 7; ++i)
     {
       positionCount[i] = 0;
@@ -98,6 +101,8 @@ void loop()
     break;
 
   case PAUSE:
+    digitalWrite(LEDgreenPin, LOW);
+    digitalWrite(LEDyellowPin, LOW);
     M2Close();
     M1Close();
     M3Move(6);
@@ -106,14 +111,14 @@ void loop()
     break;
 
   case M1:
+    digitalWrite(LEDgreenPin, HIGH);
+    digitalWrite(LEDredPin, LOW);
     currentTime = time_now - startTime;
-    digitalWrite(AIoutPin, LOW); // Turn off AI output in M1
 
-    if (digitalRead(irReceiverPin) == LOW) 
+    if (digitalRead(irReceiverPin) == LOW)
     {
-      CurrentState = AI;            // Transition to AI state
-      M1Close();                    // Call M1 close function
-      digitalWrite(AIoutPin, HIGH); // Activate AI output
+      CurrentState = AI; // Transition to AI state
+      M1Close();         // Call M1 close function
     }
     else if (currentTime - time_period_m1 > m1delay)
     {
@@ -134,6 +139,8 @@ void loop()
     break;
 
   case AI:
+    digitalWrite(AIoutPin, HIGH); // Activate AI output
+    digitalWrite(LEDyellowPin, HIGH);
     currentTime = time_now - startTime;
 
     if (CurrentMode == Manual)
@@ -149,6 +156,8 @@ void loop()
       positionCount[aivalue] += 1;
       CurrentState = M3;            // Transition to M3 state if condition met
       time_period_m3 = currentTime; // Reset the time_period to the current time
+      digitalWrite(AIoutPin, LOW);  // Turn off AI output in M1
+      digitalWrite(LEDyellowPin, LOW);
     }
     break;
 
