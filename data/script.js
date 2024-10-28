@@ -45,7 +45,7 @@ setInterval(() => {
     document.getElementById("Time").innerHTML = data.Time
     document.getElementById("totalCount").innerHTML = data.totalCount
     document.getElementById("currentvalue").innerHTML = data.currentValue
-    document.getElementById("status").innerHTML = data.Status ? 'ON' : 'OFF';
+    document.getElementById("status").innerHTML = !data.Status ? 'ON' : 'OFF';
     document.getElementById("count0").innerHTML = data.positionCount[0]
     document.getElementById("count1").innerHTML = data.positionCount[1]
     document.getElementById("count2").innerHTML = data.positionCount[2]
@@ -53,5 +53,18 @@ setInterval(() => {
     document.getElementById("count4").innerHTML = data.positionCount[4]
     document.getElementById("count5").innerHTML = data.positionCount[5]
     document.getElementById("count6").innerHTML = data.positionCount[6]
+    if (data.Status) {
+      document.getElementById("pauseButton").disabled = true
+      document.getElementById("startButton").disabled = false
+    } else {
+      if (data.isPause) {
+        document.getElementById("pauseButton").disabled = true
+        document.getElementById("startButton").disabled = false
+      }
+      else {
+        document.getElementById("pauseButton").disabled = false
+        document.getElementById("startButton").disabled = true
+      }
+    }
   })
 }, 500)

@@ -57,7 +57,8 @@ void generateJSON(AsyncWebServerRequest *request)
   }
   json += "],";
   json += "\"totalCount\":" + String(calculateTotalCount()) + ",";                // Assuming calculateTotalCount() is correct
-  json += "\"Status\":" + String((CurrentState == OFF) ? "false" : "true") + ","; // Corrected true/false
+  json += "\"Status\":" + String((CurrentState == OFF) ? "true" : "false") + ","; // Corrected true/false
+  json += "\"isPause\":" + String((CurrentState == PAUSE) ? "true" : "false") + ","; // Corrected true/false
   json += "\"currentValue\":\"" + String(aivalue) + "\"";                         // Corrected JSON format, Mode should be a string
   json += "}";
   request->send(200, "application/json", json);
