@@ -91,9 +91,9 @@ void loop()
     {
       positionCount[i] = 0;
     }
-    M2Close();
-    M1Close();
-    M3Move(6);
+    // M2Close();
+    // M1Close();
+    // M3Move(6);
     digitalWrite(SYSSTATUS, LOW); // Ensure AI output is off
     currentTime = 0;
     time_period_m1 = 0;
